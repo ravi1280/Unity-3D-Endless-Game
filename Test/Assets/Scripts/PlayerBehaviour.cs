@@ -6,12 +6,18 @@ public class PlayerBehaviour : MonoBehaviour
 {
     public float playerSpeed = 6;
     public float horizontalSpeed = 3;
-    public float RightLimit = 1.5f;
-    public float LeftLimit = -1.5f;
+    public float RightLimit = 12.5f;
+    public float LeftLimit = 9.32f;
+    public float jumpForce = 6f;
+
+    private Rigidbody rb;
+    private bool isGrounded = true;
+    private Animator animator;
 
     void Start()
     {
-
+        rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -36,6 +42,28 @@ public class PlayerBehaviour : MonoBehaviour
             }
 
         }
+        // Jump on Space or UpArrow
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            Debug.Log("jump");
+            animator.SetBool("isJump", true);
+            isGrounded = false;
+        }
 
+
+    }
+
+    // Check if player is on the ground
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            Debug.Log("Ground");
+            isGrounded = true;
+            animator.SetBool("isJump", false);
+            
+           
+        }
     }
 }
