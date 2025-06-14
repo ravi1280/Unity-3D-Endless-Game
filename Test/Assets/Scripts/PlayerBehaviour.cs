@@ -48,6 +48,7 @@ public class PlayerBehaviour : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             Debug.Log("jump");
             animator.SetBool("isJump", true);
+            //animator.SetTrigger("jj");
             isGrounded = false;
         }
 
